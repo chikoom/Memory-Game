@@ -44,7 +44,6 @@ class CardFactory {
     console.log(urlsArray)
     urlsArray.forEach(url => this.gameCards.push(new Card(++this.cardsIds,url)))
     return this.gameCards
-    
   }
 }
 
