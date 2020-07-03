@@ -4,6 +4,8 @@ import Renderer from './views/renderer.js'
 const renderer =  Renderer()
 const gameModuel = new GameModule()
 
+
+
 function imgLoad(numOfImages) {
 
   return new Promise(function(resolve, reject) {
