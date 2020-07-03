@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./styles/style.css">
+  <title>Memory Game</title>
+</head>
+<body>
+    <div id="root-container">
+      <div id="gameArea">
+
+      </div>
+    </div>
+
+
+
+    <script id="cards-template" type="text/x-handlebars-template">
+      {{#each cards}}
+
+        <div data-cardId="{{id}}" class="flip-card">
+          <div class="flip-card-inner">
+
+            <div class="flip-card-front">
+              <h1>?</h1>
+            </div>
+
+            <div class="flip-card-back">
+              <img src="{{image}}" style="width:300px;height:300px;">
+            </div>
+
+          </div>
+        </div>
+
+      {{/each}}
+    </script>
+
+    <script src="./libs/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script>
+    <script src="index.js" type="module"></script>
+</body>
+</html>
