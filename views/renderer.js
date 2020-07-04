@@ -91,6 +91,7 @@ const Renderer = () => {
   }
 
   const renderHighScore = (highscores) => {
+    $(`.highscore-wrapper`).remove()
     const $highscoreWrapper = $(`<div class="highscore-wrapper"></div>`)
     const $highscoreInner = $(`<div class="highscore-inner">
                                   <h3>HIGH SCORES</h3>
@@ -112,7 +113,10 @@ const Renderer = () => {
         break
       }
     }
+
+    const $resetHighscore = $(`<div class="reset-highscore-container"><button class="btn-reset-highscore">Reset Highscore</button></div>`)
     $highscoreInner.append($highscoreTable)
+    $highscoreInner.append($resetHighscore)
     $highscoreWrapper.append($highscoreInner)
     return $highscoreWrapper
   }

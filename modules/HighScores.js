@@ -41,10 +41,15 @@ const HighScores = () => {
     return JSON.parse(localStorage.getItem('highscores') || '[]')
   }
 
+  const resetHighScore = () => {
+    localStorage.clear()
+  }
+
   return {
     checkHighScore,
     setHighScore,
-    getHighScores
+    getHighScores,
+    resetHighScore
   }
 }
 

@@ -145,6 +145,22 @@ position: absolute;
     text-align: center;
     margin:0;
 }
+.reset-highscore-container{
+    background-color: #ddd;
+    border-top: 1px solid #333;
+}
+.btn-reset-highscore{
+    border:0;
+    outline: 0;
+    background-color: #a9a9a9;
+    cursor: pointer;
+}
+.btn-reset-highscore:hover{
+    background-color: #cbcbcb;
+}
+.btn-reset-highscore:active{
+    background-color: #b6b6b6;
+}
 
 /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
 .flip-card {

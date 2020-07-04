@@ -1,17 +1,44 @@
 import GameModule from './modules/GameModule.js'
 import Renderer from './views/renderer.js'
 
-
-
 const renderer =  Renderer()
 const gameModule = new GameModule()
 
 renderer.renderWelcomeScreen(gameModule.getHighScores())
 
+$('body').on('click', '#btn-start-game', function(){
+
+  const sourceSelection = parseInt($('#slct-image-src').val())
+  renderer.renderLoader('Loading...', 10, false)
+
+  imgLoad(12, sourceSelection).then(function(response) {
+
+    preloadImages(response).then(function(imgs) {
+  
+      renderer.renderLoader('Enjoy!', 100, false)
+
+      setTimeout(function(){
+
+        renderer.renderLoader('Enjoy!', 100, true)
+        renderer.renderGameArea(gameModule.initiateGame(imgs))
+        gameModule.startGame(renderer.renderTime)
+
+      },1000)
+      
+    }, function(errImg) {
+      console.log(errImg)
+    });
+
+  }, function(Error) {
+    console.log(Error);
+  });
+
+})
 
 function imgLoad(numOfImages, source) {
 
   renderer.renderLoader('Getting Images...', 20, false)
+
   return new Promise(function(resolve, reject) {
 
     let imagesArray = []
@@ -31,7 +58,7 @@ function imgLoad(numOfImages, source) {
         }
       })
 
-    }else if(parseInt(source) === 2){
+    } else if(parseInt(source) === 2) {
 
       $.ajax({
         method: "GET",
@@ -39,21 +66,16 @@ function imgLoad(numOfImages, source) {
         success: function(data){
           renderer.renderLoader('Images Downloaded...', 50, false)
           //data.data.map(result => imagesArray.push(result.images.preview_gif.url))
-          resolve(data.message);
+          resolve(data.message)
         },
         error: function (xhr, text, error){
-          reject(Error('Images didn\'t load successfully; error code:' + text));
+          reject(Error(`Images didn't load successfully; error code: ${text}`))
         }
       })
 
     }
-
-    
-
   })
 }
-
-
 
 
 function preloadImages(srcs) {
@@ -76,9 +98,6 @@ function preloadImages(srcs) {
   }
   return Promise.all(promises);
 }
-
-
-
 
 
 $('body').on('click', '.flip-card', function(){
@@ -121,34 +140,6 @@ $('body').on('click', '.flip-card', function(){
 })
 
 
-$('body').on('click', '#btn-start-game', function(){
-
-  const sourceSelection = parseInt($('#slct-image-src').val())
-  renderer.renderLoader('Loading...', 10, false)
-
-  imgLoad(12, sourceSelection).then(function(response) {
-
-    preloadImages(response).then(function(imgs) {
-  
-      renderer.renderLoader('Enjoy!', 100, false)
-      setTimeout(function(){
-        renderer.renderLoader('Enjoy!', 100, true)
-        renderer.renderGameArea(gameModule.initiateGame(imgs))
-        gameModule.startGame(renderer.renderTime)
-      },1000)
-      
-    }, function(errImg) {
-  
-      console.log('error loading images')
-  
-    });
-  
-  }, function(Error) {
-    console.log(Error);
-  });
-
-})
-
 $('body').on('click', '#btn-highscore', function(){
   if($('#highscore-name').val().length < 2){
     return
@@ -158,4 +149,12 @@ $('body').on('click', '#btn-highscore', function(){
   $('#highscore-name').val('')
   $('#highscoreInput').empty()
   $('#highscoreInput').append(renderer.renderHighScore(gameModule.getHighScores()))
+})
+
+
+$('body').on('click', '.btn-reset-highscore', function(){
+
+    gameModule.resetHighScore()
+    renderer.renderHighScore(gameModule.getHighScores())
+
 })

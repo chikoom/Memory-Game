@@ -60,8 +60,10 @@ class GameModule{
     return highScores.checkHighScore(score)
   }
   setHighScore(name){
-    console.log('setting highscore')
     return highScores.setHighScore(name,this.score)
+  }
+  resetHighScore(){
+    return highScores.resetHighScore()
   }
 }
 
