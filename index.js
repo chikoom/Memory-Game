@@ -1,10 +1,14 @@
 import GameModule from './modules/GameModule.js'
 import Renderer from './views/renderer.js'
 
+
+
 const renderer =  Renderer()
 const gameModule = new GameModule()
 
-renderer.renderWelcomeScreen()
+renderer.renderWelcomeScreen(gameModule.getHighScores())
+
+
 
 function imgLoad(numOfImages, source) {
 
@@ -102,7 +106,6 @@ $('body').on('click', '.flip-card', function(){
       $('.waiting').removeClass('flipped')
       $('.waiting').removeClass('waiting')
       gameModule.cardsFlipped = 0;
-      gameModule.cardsLeft -= 2
       console.log(`${gameModule.cardsLeft} Cards Left`)
 
     }else{
@@ -132,6 +135,7 @@ $('body').on('click', '#btn-start-game', function(){
       setTimeout(function(){
         renderer.renderLoader('Enjoy!', 100, true)
         renderer.renderGameArea(gameModule.initiateGame(imgs))
+        gameModule.startGame(renderer.renderTime)
       },1000)
       
     }, function(errImg) {
@@ -144,6 +148,15 @@ $('body').on('click', '#btn-start-game', function(){
     console.log(Error);
   });
 
+})
 
-
+$('body').on('click', '#btn-highscore', function(){
+  if($('#highscore-name').val().length < 2){
+    return
+  }
+  const name = $('#highscore-name').val()
+  gameModule.setHighScore(name)
+  $('#highscore-name').val('')
+  $('#highscoreInput').empty()
+  $('#highscoreInput').append(renderer.renderHighScore(gameModule.getHighScores()))
 })

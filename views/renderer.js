@@ -17,20 +17,25 @@ const Renderer = () => {
 
   }
 
-  const renderWelcomeScreen = () => {
+  const renderWelcomeScreen = (highscores) => {
     $('#root-container').empty()
-    const $welcomeScreen = $(`<div id="welcome-container">
-                                <div id="welcome-inner">
-                                  <p id="welcome-heading">REMEMBER ME?</p>
-                                  <p id="welcome-subheading">just another memory game</p>
-                                  <p id="welcome-select">select image source:</p>
-                                  <select id="slct-image-src">
-                                    <option value="1">Giphy Trending Gifs</option>
-                                    <option value="2">Random Dogs</option>
-                                  </select>
-                                  <button id="btn-start-game">START GAME!</button>
-                                </div>
-                              </div>`)
+    const $welcomeScreen = $(`<div id="welcome-container"></div>`)
+    const $welcomeScreenInner = $(`<div id="welcome-inner"></div>`)
+    const $welcomeScreenContent = $(`<p id="welcome-heading">REMEMBER ME?</p>
+                                      <p id="welcome-subheading">just another memory game</p>
+                                      <p id="welcome-select">select image source:</p>
+                                      <select id="slct-image-src">
+                                        <option value="1">Giphy Trending Gifs</option>
+                                        <option value="2">Random Dogs</option>
+                                      </select>
+                                      <button id="btn-start-game">START GAME!</button>`)
+
+    $welcomeScreen.append($welcomeScreenInner)
+    $welcomeScreenInner.append($welcomeScreenContent)
+    console.log(highscores)
+    if(highscores.length > 0)
+      $welcomeScreenInner.append(renderHighScore(highscores))
+    
     $('#root-container').append($welcomeScreen)
   }
 
@@ -53,13 +58,72 @@ const Renderer = () => {
   const renderFlip = (gameState) => {
     $('#tries-count').text(gameState.totalFlips)
     $('#score-sum').text(gameState.score)
+    if(gameState.gameOver){
+      console.log('GAME OVER')
+      renderEndGame(gameState)
+    }
+  }
+
+  const renderEndGame = (gameState) => {
+    const $endGameWrapper = $(`<div id="endGameWrapper"></div>`)
+    const $endGameInner = $(`<div id="endGameInner"></div>`)
+    const $endGameText = $(`<h2>Great Job!</h2>
+                      <p>Your score is: ${gameState.score}</p>`)
+    const $endGameInput = $(`<div id="highscoreInput">
+                          <h3>New HighScore!</h3>
+                          <p>Enter Your Name: </p>
+                          <input type="text" id="highscore-name" />
+                          <button id="btn-highscore">Submit</button>
+                        </div>`)
+    $endGameInner.append($endGameText)
+    if(gameState.isHighScore){
+      $endGameInner.append($endGameInput)
+    }
+    $endGameWrapper.append($endGameInner)
+    $('#root-container').append($endGameWrapper)
+    
+  }
+
+  const renderTime = (seconds) => {
+    $('#time-seconds').text(seconds)
+    let scoreVal = parseInt($('#score-sum').text())
+    $('#score-sum').text(--scoreVal)
+  }
+
+  const renderHighScore = (highscores) => {
+    const $highscoreWrapper = $(`<div class="highscore-wrapper"></div>`)
+    const $highscoreInner = $(`<div class="highscore-inner">
+                                  <h3>HIGH SCORES</h3>
+                                  <hr/>
+                                </div>`)
+    const $highscoreTable = $(`<table class="highscoreTable">
+                                  <tr>
+                                    <th>Name</th>
+                                    <th>Score</th>
+                                  </tr>
+                                </table>`)
+
+    for(let i = 0 ; i < highscores.length ; i++){
+      $highscoreTable.append($(`<tr>
+                        <td class="h_name">${highscores[parseInt(i)].name}</td>
+                        <td class="h_score">${highscores[parseInt(i)].score}</td>
+                      </tr>`))
+      if(i === 2){
+        break
+      }
+    }
+    $highscoreInner.append($highscoreTable)
+    $highscoreWrapper.append($highscoreInner)
+    return $highscoreWrapper
   }
 
   return {
     renderGameArea,
     renderLoader,
     renderWelcomeScreen,
-    renderFlip
+    renderFlip,
+    renderTime,
+    renderHighScore
   }
 }
 

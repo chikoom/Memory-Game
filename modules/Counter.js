@@ -1,18 +1,20 @@
-const Counter = (seconds = 0) => {
+const Counter = () => {
 
   const _counterData = {
-    seconds: seconds,
+    seconds: 0,
     isCounting: false,
     counterInterval: 0
   }
 
-  const startCounting = (intervalCallback, endCallback) => {
+  const startCounting = (intervalCallback, gameModule) => {
 
     if(!_counterData.isCounting) {
       _counterData.counterInterval = setInterval(function(){
-        console.log(`count: ${_counterData.seconds}`)
-        --_counterData.seconds
-        intervalCallback()
+        //console.log(`count: ${_counterData.seconds}`)
+        ++_counterData.seconds
+        gameModule.timePassed = _counterData.seconds
+        --gameModule.score
+        intervalCallback(gameModule.timePassed)
       },1000)
       console.log('Counter Started')
       
@@ -33,11 +35,11 @@ const Counter = (seconds = 0) => {
     return _counterData.isCounting
   }
 
-  const resetCounter = (initialSeconds) => {
+  const resetCounter = () => {
 
     stopCounting()
-    _counterData.seconds = initialSeconds;
-    console.log(`Counter reset to ${initialSeconds} seconds.`)
+    _counterData.seconds = 0;
+    console.log(`Counter reset`)
     return true
 
   }
