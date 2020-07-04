@@ -4,26 +4,48 @@ import Renderer from './views/renderer.js'
 const renderer =  Renderer()
 const gameModule = new GameModule()
 
+renderer.renderWelcomeScreen()
 
+function imgLoad(numOfImages, source) {
 
-function imgLoad(numOfImages) {
-
+  renderer.renderLoader('Getting Images...', 20, false)
   return new Promise(function(resolve, reject) {
 
     let imagesArray = []
 
-    $.ajax({
-      method: "GET",
-      url: `http://api.giphy.com/v1/gifs/trending?api_key=DKiA3kL5riYRm73jOgdluRNehaCQlaex&limit=${numOfImages}`,
-      success: function(data){
-        console.log(data)
-        data.data.map(result => imagesArray.push(result.images.preview_gif.url))
-        resolve(imagesArray);
-      },
-      error: function (xhr, text, error){
-        reject(Error('Images didn\'t load successfully; error code:' + text));
-      }
-    })
+    if(parseInt(source) === 1){
+
+      $.ajax({
+        method: "GET",
+        url: `http://api.giphy.com/v1/gifs/trending?api_key=DKiA3kL5riYRm73jOgdluRNehaCQlaex&limit=${numOfImages}`,
+        success: function(data){
+          renderer.renderLoader('Images Downloaded...', 50, false)
+          data.data.map(result => imagesArray.push(result.images.preview_gif.url))
+          resolve(imagesArray);
+        },
+        error: function (xhr, text, error){
+          reject(Error('Images didn\'t load successfully; error code:' + text));
+        }
+      })
+
+    }else if(parseInt(source) === 2){
+
+      $.ajax({
+        method: "GET",
+        url: `http://api.giphy.com/v1/gifs/trending?api_key=DKiA3kL5riYRm73jOgdluRNehaCQlaex&limit=${numOfImages}`,
+        success: function(data){
+          renderer.renderLoader('Images Downloaded...', 50, false)
+          data.data.map(result => imagesArray.push(result.images.preview_gif.url))
+          resolve(imagesArray);
+        },
+        error: function (xhr, text, error){
+          reject(Error('Images didn\'t load successfully; error code:' + text));
+        }
+      })
+
+    }
+
+    
 
   })
 }
@@ -44,6 +66,7 @@ function preloadImages(srcs) {
           img.src = src;
       });
   }
+  renderer.renderLoader('Preloading Images...', 75, false)
   var promises = [];
   for (var i = 0; i < srcs.length; i++) {
       promises.push(loadImage(srcs[i]));
@@ -52,26 +75,14 @@ function preloadImages(srcs) {
 }
 
 
-imgLoad(12).then(function(response) {
 
-  preloadImages(response).then(function(imgs) {
-
-    renderer.renderGameArea(gameModule.initiateGame(imgs))
-  
-  }, function(errImg) {
-
-    console.log('error loading images')
-
-  });
-
-}, function(Error) {
-  console.log(Error);
-});
 
 
 $('body').on('click', '.flip-card', function(){
-
-  if(gameModule.cardsFlipped === 0){
+  if($(this).hasClass('found') || $(this).hasClass('waiting')){
+    return
+  }
+  else if(gameModule.cardsFlipped === 0){
     $(this).find('.flip-card-inner').css('transform', 'rotateY(180deg)')
     $(this).addClass('flipped waiting')
     gameModule.cardsFlipped = 1;
@@ -88,9 +99,13 @@ $('body').on('click', '.flip-card', function(){
     console.log(matchFound)
 
     if(matchFound){
+      $('.waiting').addClass('found')
       $('.waiting').removeClass('flipped')
       $('.waiting').removeClass('waiting')
       gameModule.cardsFlipped = 0;
+      gameModule.cardsLeft -= 2
+      console.log(`${gameModule.cardsLeft} Cards Left`)
+
     }else{
       setTimeout(function(){
         $('.flipped').find('.flip-card-inner').css('transform', 'rotateY(0deg)')
@@ -105,3 +120,32 @@ $('body').on('click', '.flip-card', function(){
 })
 
 
+$('body').on('click', '#btn-start-game', function(){
+  console.log($('#slct-image-src').val())
+
+  
+  renderer.renderLoader('Loading...', 10, false)
+
+  imgLoad(12, 1).then(function(response) {
+
+    preloadImages(response).then(function(imgs) {
+  
+      renderer.renderLoader('Enjoy!', 100, false)
+      setTimeout(function(){
+        renderer.renderLoader('Enjoy!', 100, true)
+        renderer.renderGameArea(gameModule.initiateGame(imgs))
+      },1000)
+      
+    }, function(errImg) {
+  
+      console.log('error loading images')
+  
+    });
+  
+  }, function(Error) {
+    console.log(Error);
+  });
+
+
+
+})

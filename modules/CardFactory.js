@@ -16,8 +16,8 @@ class CardFactory {
     return urlsArray
   }
   randomizeArray(urlsArray){
-    let randomMap = this.createRandomMap(urlsArray.length-1)
-    console.log(randomMap)
+    let randomMap = this.createRandomMap(urlsArray.length)
+    console.log(urlsArray)
     let randomArray = []
     for(let position of randomMap){
       randomArray.push(urlsArray[position])
@@ -26,10 +26,10 @@ class CardFactory {
   }
   createRandomMap = (nums) => {
     const randomMap = []
-    for(let i = 0 ; i <= nums ; i++){ 
+    for(let i = 0 ; i < nums ; i++){ 
       while(!randomMap.includes(i)){
         let randomPosition = Math.floor(Math.random() * nums)
-        if(!randomMap[randomPosition]){
+        if(randomMap[randomPosition] === undefined){
           randomMap[randomPosition] = i
         }
       }
@@ -44,6 +44,7 @@ class CardFactory {
     console.log(urlsArray)
     urlsArray.forEach(url => this.gameCards.push(new Card(++this.cardsIds,url)))
     return this.gameCards
+    
   }
 }
 
