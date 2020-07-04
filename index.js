@@ -158,3 +158,10 @@ $('body').on('click', '.btn-reset-highscore', function(){
     renderer.renderHighScore(gameModule.getHighScores())
 
 })
+
+$('body').on('click', '#restart', function(){
+
+  gameModule.resetGame()
+  renderer.renderWelcomeScreen(gameModule.getHighScores())
+
+})

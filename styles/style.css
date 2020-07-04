@@ -161,7 +161,25 @@ position: absolute;
 .btn-reset-highscore:active{
     background-color: #b6b6b6;
 }
-
+#restart-container{
+    text-align: center;
+    background-color: #67bc87;
+    padding:10px;
+}
+#restart{
+    border:0;
+    outline: 0;
+    background-color: #b02e2e;
+    cursor: pointer;
+    color:#FFF;
+    padding:5px 10px;
+}
+#restart:hover{
+    background-color: #d64040;
+}
+#restart:active{
+    background-color: #b02e2e;
+}
 /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
 .flip-card {
   background-color: transparent;

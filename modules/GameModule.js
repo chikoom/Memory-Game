@@ -65,6 +65,19 @@ class GameModule{
   resetHighScore(){
     return highScores.resetHighScore()
   }
+  resetGame(){
+    this.totalCards = 0
+    this.cardsFlipped = 0
+    this.cardsLeft = 0
+    this.gameCards = []
+    this.flippedCards = []
+    this.totalFlips = 0
+    this.initialScore = 1000
+    this.score = 1000
+    this.gameOver = false
+    this.timePassed = 0
+    cardFactory.clearCards()
+  }
 }
 
 export default GameModule

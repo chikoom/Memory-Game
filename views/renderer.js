@@ -80,6 +80,7 @@ const Renderer = () => {
       $endGameInner.append($endGameInput)
     }
     $endGameWrapper.append($endGameInner)
+    $endGameWrapper.append($('<div id="restart-container"><button id="restart">Play Again</button></div>'))
     $('#root-container').append($endGameWrapper)
     
   }

@@ -43,6 +43,9 @@ class CardFactory {
     return this.gameCards
     
   }
+  clearCards(){
+    this.gameCards = []
+  }
 }
 
 export default CardFactory
