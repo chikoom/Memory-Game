@@ -9,7 +9,6 @@ const gameModule = new GameModule()
 renderer.renderWelcomeScreen(gameModule.getHighScores())
 
 
-
 function imgLoad(numOfImages, source) {
 
   renderer.renderLoader('Getting Images...', 20, false)
