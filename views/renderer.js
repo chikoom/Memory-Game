@@ -50,10 +50,16 @@ const Renderer = () => {
     }
   }
 
+  const renderFlip = (gameState) => {
+    $('#tries-count').text(gameState.totalFlips)
+    $('#score-sum').text(gameState.score)
+  }
+
   return {
     renderGameArea,
     renderLoader,
-    renderWelcomeScreen
+    renderWelcomeScreen,
+    renderFlip
   }
 }
 

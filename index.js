@@ -94,9 +94,10 @@ $('body').on('click', '.flip-card', function(){
     gameModule.cardsFlipped = 2;
     gameModule.flippedCards.push($(this).data().cardid)
 
-    let matchFound = gameModule.checkMatch()
+    let matchResult = gameModule.checkMatch()
+    renderer.renderFlip(matchResult)
 
-    if(matchFound){
+    if(matchResult.matchFound){
       $('.waiting').addClass('found')
       $('.waiting').removeClass('flipped')
       $('.waiting').removeClass('waiting')
