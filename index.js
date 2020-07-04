@@ -32,11 +32,11 @@ function imgLoad(numOfImages, source) {
 
       $.ajax({
         method: "GET",
-        url: `http://api.giphy.com/v1/gifs/trending?api_key=DKiA3kL5riYRm73jOgdluRNehaCQlaex&limit=${numOfImages}`,
+        url: `https://dog.ceo/api/breeds/image/random/${numOfImages}`,
         success: function(data){
           renderer.renderLoader('Images Downloaded...', 50, false)
-          data.data.map(result => imagesArray.push(result.images.preview_gif.url))
-          resolve(imagesArray);
+          //data.data.map(result => imagesArray.push(result.images.preview_gif.url))
+          resolve(data.message);
         },
         error: function (xhr, text, error){
           reject(Error('Images didn\'t load successfully; error code:' + text));
@@ -96,8 +96,6 @@ $('body').on('click', '.flip-card', function(){
 
     let matchFound = gameModule.checkMatch()
 
-    console.log(matchFound)
-
     if(matchFound){
       $('.waiting').addClass('found')
       $('.waiting').removeClass('flipped')
@@ -121,12 +119,11 @@ $('body').on('click', '.flip-card', function(){
 
 
 $('body').on('click', '#btn-start-game', function(){
-  console.log($('#slct-image-src').val())
 
-  
+  const sourceSelection = parseInt($('#slct-image-src').val())
   renderer.renderLoader('Loading...', 10, false)
 
-  imgLoad(12, 1).then(function(response) {
+  imgLoad(12, sourceSelection).then(function(response) {
 
     preloadImages(response).then(function(imgs) {
   

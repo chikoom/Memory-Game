@@ -6,7 +6,6 @@ const template = Handlebars.compile(source);
 const Renderer = () => {
 
   const renderGameArea = (cardsArray) => {
-    console.log('rendering game area')
     $('#root-container').empty()
     const $gameArea = $('<div id="gameArea"></div>')
     

@@ -7,11 +7,7 @@
   <title>Memory Game</title>
 </head>
 <body>
-    <div id="root-container">
-      <div id="gameArea">
-
-      </div>
-    </div>
+    <div id="root-container"></div>
 
 
 
@@ -19,14 +15,14 @@
       {{#each cards}}
 
         <div data-cardId="{{id}}" class="flip-card">
-          <div class="flip-card-inner">
+          <div class="flip-card-inner noselect">
 
             <div class="flip-card-front">
               <h1>?</h1>
             </div>
 
             <div class="flip-card-back">
-              <img src="{{image}}" style="width:300px;height:300px;">
+              <img src="{{image}}" style="width:150px;height:150px;">
             </div>
 
           </div>

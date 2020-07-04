@@ -17,8 +17,6 @@ class GameModule{
     return this.gameCards
   }
   checkMatch(){
-    console.log(this.flippedCards)
-    console.log(this.gameCards)
     if(this.gameCards[this.flippedCards[0]-1].image === this.gameCards[this.flippedCards[1]-1].image){
       this.flippedCards = []
       return true
