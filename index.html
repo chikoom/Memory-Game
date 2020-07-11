@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./styles/style.css">
+  <title>Memory Game</title>
+</head>
+<body>
+    <div id="root-container"></div>
+
+
+
+    <script id="cards-template" type="text/x-handlebars-template">
+      <div id="data-bar">
+        <div id="time-pass">Time: <span id="time-seconds">00</span></div>
+        <div id="tries">Flips: <span id="tries-count">0</span></div>
+        <div id="score">Score: <span id="score-sum">1000</span></div>
+      </div>
+      <div id="cards-area">
+        {{#each cards}}
+          <div data-cardId="{{id}}" class="flip-card">
+            <div class="flip-card-inner noselect">
+
+              <div class="flip-card-front">
+                <h1>?</h1>
+              </div>
+
+              <div class="flip-card-back">
+                <img src="{{image}}" style="width:150px;height:150px;">
+              </div>
+
+            </div>
+          </div>
+
+        {{/each}}
+      </div>
+    </script>
+
+    <script src="./libs/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script>
+    <script src="index.js" type="module"></script>
+</body>
+</html>
